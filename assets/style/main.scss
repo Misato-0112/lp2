@@ -1,0 +1,915 @@
+@charset "UTF-8";
+/* scss関数群
+------------------------------------------ */
+
+// コンテンツ幅の指定
+$sp_content_width: 390;
+$pc_full_width: 1500;
+$pc_content_width: 1200;
+
+// 本番用か否か？本番用の場合は1にする。0の場合はpxで出力される。(パーフェクトピクセル用)
+$production: 1;
+
+// SP用: vwへの変換
+@function vw($px) {
+    @if $production !=1 {
+        @return $px * 1px;
+    }
+
+    @return calc($px * 100vw / $sp_content_width);
+}
+
+// PC用: vwへの変換
+@function vwp($px) {
+    @if $production !=1 {
+        @return $px * 1px;
+    }
+
+    @return calc($px * 100vw / $pc_full_width);
+}
+
+// pxをremに変換
+@function px2Rem($px) {
+    @if $production !=1 {
+        @return $px * 1px;
+    }
+
+    @return calc($px / 16) * 1rem;
+}
+
+// 下記でmin/max関数をScssの関数ではなくcssの関数として出力するためのラッパー
+@function min($values...) {
+    @return unquote("min(#{$values})");
+}
+
+@function max($values...) {
+    @return unquote("max(#{$values})");
+}
+
+// vwで動作し、pxで頭打ちにする関数
+@function mvw($px) {
+    @if $production !=1 {
+        @return $px * 1px;
+    }
+
+    $value1: calc($px * 100vw / $pc_content_width);
+    $value2: px2Rem($px);
+
+    @if $px>=0 {
+        @return min($value1, $value2);
+    } @else {
+        @return max($value1, $value2);
+    }
+}
+
+// ブレークポイント設定
+$breakpoints: (
+    "sm": "screen and (min-width: 390px)",
+    "md": "screen and (min-width: 768px)",
+    "lg": "screen and (min-width: 1200px)",
+    "xl": "screen and (min-width: 1500px)",
+) !default;
+
+@mixin mq($breakpoint: md) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+// コンテンツ幅以下可変レイアウト------------------
+
+html {
+    font-size: calc(16 * 100vw / 390); /* 390はSPデザインカンプの幅 */
+    /* 変換サイト・ツールなどで、 390pxの幅での16pxを変換して4.1vwなのでそれを当ててもよい */
+    /* font-size: 4.1vw; */
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: calc(16 * 100vw / 1500); /* 1500はPCカンプのコンテンツ幅 */
+    }
+}
+
+@media (min-width: 1500px) {
+    html {
+        font-size: 100%;
+    }
+}
+
+// 字間トラッキングのmixin
+@mixin tracking($tracking) {
+    letter-spacing: ($tracking / 1000) + em;
+}
+
+// 行間のmixin
+@mixin font-lin($fontsize, $lin) {
+    //$fontsizeの数値の単位はpx
+    line-height: $lin / $fontsize;
+}
+
+/* 共通------------------ */
+/* スムーススクロール */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: px2Rem(10);
+}
+
+/* カラー変数 */
+$color-footer: #0071ce;
+$color-online: #46c4db;
+$color-cream: #111;
+$color-cart: #5dd5ab;
+$color-arrow: #00afbf;
+$color-accordion: #444;
+$color-white: #fff;
+$color-gray: #eee;
+$color-text: #000;
+
+/* リセット */
+a {
+    color: $color-text;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 画像 */
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+/* リンクホバー時に透過 */
+a:hover,
+button:hover {
+    opacity: 0.6;
+}
+
+/* コンテナー横幅と左右の余白 */
+.w-container {
+    max-width: px2Rem(358);
+    height: 100%;
+    margin: auto;
+}
+
+@include mq(md) {
+    .w-container {
+        max-width: px2Rem(1200);
+    }
+}
+
+/* flexボックス */
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* フォント */
+body {
+    font-size: px2Rem(16);
+    line-height: 2;
+    color: $color-text;
+    font-family: "Noto Serif JP", serif;
+}
+
+@mixin --marcellus {
+    font-family: "Marcellus", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@mixin --garamond {
+    font-family: "EB Garamond", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
+}
+
+/*セクション共通*/
+section {
+    padding-bottom: px2Rem(54);
+
+    @include mq(md) {
+        padding-bottom: px2Rem(93);
+    }
+}
+
+h1 {
+    @include --marcellus;
+    font-size: px2Rem(24);
+    @include font-lin(24, 30);
+    @include tracking(200);
+
+    @include mq(md) {
+        font-size: px2Rem(28);
+        @include font-lin(28, 35);
+    }
+}
+
+h2 {
+    @include --garamond;
+    font-size: px2Rem(30);
+    font-weight: bold;
+    @include font-lin(30, 32);
+    @include tracking(50);
+    text-align: center;
+    padding-bottom: px2Rem(4);
+
+    @include mq(md) {
+        font-size: px2Rem(45);
+        @include font-lin(45, 32);
+        padding-bottom: px2Rem(20);
+    }
+}
+
+.section-title-group {
+    text-align: center;
+    padding-left: px2Rem(2);
+
+    &__subtitle {
+        font-size: px2Rem(16);
+        font-weight: 600;
+        @include font-lin(16, 32);
+        @include tracking(50);
+
+        @include mq(md) {
+            font-size: px2Rem(20);
+            @include font-lin(20, 32);
+        }
+    }
+}
+
+/* メイン------------------------------------ */
+/*メインビジュアル------------------*/
+.main-visual {
+    padding-bottom: px2Rem(109);
+
+    @include mq(md) {
+        padding-bottom: 0;
+    }
+
+    .w-container {
+        position: relative;
+    }
+
+    &__background {
+        max-width: px2Rem(390);
+        height: px2Rem(450);
+        background-image: url("/assets/image/main-visual_sp.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0 auto;
+
+        @include mq(md) {
+            max-width: px2Rem(1500);
+            height: px2Rem(720);
+            background-image: url("/assets/image/main-visual_pc.jpg");
+            padding-bottom: 0;
+        }
+    }
+
+    &__logo {
+        text-align: center;
+        padding-top: px2Rem(24);
+        padding-left: px2Rem(4);
+
+        @include mq(md) {
+            font-size: px2Rem(28);
+            @include font-lin(28, 35);
+            padding-top: px2Rem(32);
+        }
+    }
+}
+
+.main-visual-title-group {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: px2Rem(139);
+    width: 100%;
+    bottom: px2Rem(107) * -1;
+    left: px2Rem(7);
+
+    @include mq(md) {
+        height: px2Rem(177);
+        padding-left: px2Rem(66);
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    p {
+        display: inline-block;
+    }
+
+    &__title {
+        @include --marcellus;
+        font-size: px2Rem(41);
+        @include font-lin(41, 51);
+        @include tracking(300);
+
+        @include mq(md) {
+            font-size: px2Rem(50);
+            line-height: 1.35;
+        }
+    }
+
+    &__subtitle {
+        font-size: px2Rem(20);
+        @include font-lin(20, 29);
+        @include tracking(300);
+
+        @include mq(md) {
+            font-size: px2Rem(25);
+            @include font-lin(25, 36);
+        }
+    }
+}
+
+/* ショッピング------------------*/
+.shopping {
+    padding-top: px2Rem(48);
+    padding-bottom: px2Rem(50);
+
+    @include mq(md) {
+        padding: px2Rem(48) 0;
+    }
+
+    /*ショッピング2のpadding下変更*/
+    &--two {
+        padding-top: 50px;
+        padding-bottom: px2Rem(10);
+
+        @include mq(md) {
+            padding-bottom: px2Rem(7);
+        }
+    }
+}
+
+.shopping .w-container {
+    background-color: #f0f4ff;
+    display: grid;
+    gap: px2Rem(20);
+    padding-top: px2Rem(20);
+    padding-bottom: px2Rem(34);
+
+    @include mq(md) {
+        max-width: px2Rem(1000);
+        grid-auto-flow: column;
+        justify-content: space-between;
+        padding: px2Rem(40) px2Rem(48);
+    }
+}
+
+.shopping-product {
+    color: $color-cream;
+    text-align: center;
+
+    @include mq(md) {
+        text-align: left;
+    }
+
+    &__name {
+        font-size: px2Rem(18);
+        font-weight: 600;
+        @include font-lin(18, 26);
+        @include tracking(100);
+        padding-bottom: px2Rem(5);
+
+        @include mq(md) {
+            font-size: px2Rem(24);
+            @include font-lin(24, 35);
+            padding-bottom: px2Rem(8);
+        }
+    }
+
+    &__price {
+        font-size: px2Rem(14);
+        @include font-lin(14, 20);
+        @include tracking(100);
+
+        @include mq(md) {
+            font-size: px2Rem(16);
+            @include font-lin(16, 23);
+        }
+    }
+}
+
+.shopping-button {
+    display: grid;
+    gap: px2Rem(20);
+    place-items: center;
+    font-size: px2Rem(18);
+    font-weight: 600;
+    @include font-lin(18, 26);
+
+    @include mq(md) {
+        grid-auto-flow: column;
+        gap: px2Rem(32);
+        justify-content: space-between;
+    }
+
+    a,
+    button {
+        display: inline-block;
+        width: px2Rem(300);
+        color: $color-white;
+        padding: px2Rem(16) 0;
+        margin: auto;
+        border-radius: px2Rem(34);
+        text-align: center;
+    }
+
+    &__link {
+        background-color: $color-online;
+    }
+
+    &__cart {
+        background-color: $color-cart;
+    }
+}
+
+/*コンセプト------------------*/
+.concept {
+    &__background {
+        height: px2Rem(680);
+        background-image: url("/assets/image/concept_sp.jpg");
+        background-size: cover;
+        background-position: center;
+        margin: 0 auto;
+
+        @include mq(md) {
+            max-width: px2Rem(1500);
+            background-image: url("/assets/image/concept_pc.jpg");
+            height: px2Rem(550);
+        }
+    }
+
+    & .w-container {
+        padding-top: px2Rem(41);
+
+        @include mq(md) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            padding-top: 0;
+            padding-right: px2Rem(92);
+        }
+    }
+}
+
+.concept-text-group {
+    text-align: center;
+    color: $color-white;
+
+    @include mq(md) {
+        width: px2Rem(429);
+        text-align: left;
+    }
+
+    &__title {
+        @include --garamond;
+        font-size: px2Rem(30);
+        font-weight: bold;
+        @include font-lin(30, 54);
+        @include tracking(0);
+        text-align: center;
+
+        @include mq(md) {
+            text-align: left;
+            font-size: px2Rem(38);
+            @include font-lin(38, 54);
+            padding-bottom: 5px;
+        }
+    }
+
+    &__subtitle {
+        font-size: px2Rem(24);
+        font-weight: 600;
+        line-height: 1.5;
+        padding-bottom: px2Rem(13);
+
+        @include mq(md) {
+            padding-bottom: px2Rem(16);
+        }
+    }
+
+    &__text {
+        font-size: px2Rem(14);
+        @include font-lin(14, 32);
+        text-align: left;
+    }
+}
+
+/*お客様の声------------------*/
+.voices {
+    padding-bottom: 49px;
+
+    @include mq(md) {
+        padding-bottom: px2Rem(80);
+    }
+
+    & .w-container {
+        padding-top: px2Rem(30);
+
+        @include mq(md) {
+            padding-top: px2Rem(37);
+            padding-right: px2Rem(22);
+            padding-left: px2Rem(22);
+        }
+    }
+}
+
+/*Slickスライダー*/
+.voices-slider {
+    position: relative;
+    width: 100%;
+    margin: auto;
+
+    @include mq(md) {
+        max-width: px2Rem(1156);
+    }
+
+    &__container {
+        @include mq(md) {
+            max-width: px2Rem(1020);
+            margin: auto;
+        }
+    }
+
+    &__item {
+        box-sizing: border-box;
+        width: px2Rem(280);
+        margin: 0 px2Rem(39);
+        text-align: center;
+        background-color: #dbf7f9;
+        padding: px2Rem(28) px2Rem(15) px2Rem(24);
+
+        @include mq(md) {
+            width: px2Rem(300);
+            padding: px2Rem(41) px2Rem(16) px2Rem(37);
+            margin: 0 px2Rem(20);
+        }
+    }
+
+    &__image {
+        width: px2Rem(80);
+        height: px2Rem(80);
+        border-radius: 50%;
+        margin-left: px2Rem(90);
+
+        @include mq(md) {
+            width: px2Rem(100);
+            height: px2Rem(100);
+            margin-left: px2Rem(84);
+        }
+    }
+
+    &__name {
+        font-size: px2Rem(14);
+        @include font-lin(14, 32);
+        @include tracking(50);
+        padding-top: px2Rem(2);
+        padding-bottom: px2Rem(10);
+
+        @include mq(md) {
+            font-size: px2Rem(15);
+            @include font-lin(15, 32);
+            padding-bottom: px2Rem(9);
+        }
+    }
+    &__text {
+        font-size: px2Rem(14);
+        @include font-lin(14, 28);
+        @include tracking(0);
+        text-align: left;
+
+        @include mq(md) {
+            font-size: px2Rem(16);
+            @include font-lin(16, 28);
+        }
+    }
+    &__navigation {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        position: absolute;
+        top: calc(50% - px2Rem(47));
+
+        @include mq(md) {
+            top: calc(50% - px2Rem(67));
+        }
+    }
+    &__button {
+        font-size: px2Rem(32);
+        color: $color-arrow;
+
+        @include mq(md) {
+            font-size: px2Rem(48);
+        }
+    }
+}
+
+.slick-dotted.slick-slider {
+    margin-bottom: 0;
+}
+
+.slide-dots {
+    font-size: 0;
+    text-align: center;
+    padding-top: px2Rem(16);
+
+    @include mq(md) {
+        padding-top: px2Rem(24);
+    }
+    li {
+        display: inline-block;
+        margin: 0 px2Rem(3.5);
+        button {
+            font-size: 0; /* ボタンのデフォルトテキストを非表示にする */
+            width: px2Rem(9); /* ドットの幅 */
+            height: px2Rem(9); /* ドットの高さ */
+            border-radius: 50%; /* ドットを丸くする */
+            background-color: $color-gray; /* ドットの通常の色 */
+            border: none; /* ボーダーを消す */
+            padding: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* ホバー時のエフェクト */
+            position: relative;
+            text-indent: -9999px;
+            &:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+        &.slick-active button {
+            background-color: $color-arrow;
+        }
+    }
+}
+
+/*よくあるご質問------------------*/
+.question {
+    background: linear-gradient(#f4ffe8 0%, #c6f0fe 100%);
+    padding-top: px2Rem(36);
+    padding-bottom: px2Rem(33);
+
+    @include mq(md) {
+        padding-top: px2Rem(52);
+        padding-bottom: px2Rem(40);
+    }
+    & .w-container {
+        padding-top: px2Rem(31);
+
+        @include mq(md) {
+            padding-top: px2Rem(38);
+        }
+    }
+}
+
+/*アコーディオン*/
+.accordion {
+    display: grid;
+    gap: px2Rem(20);
+    max-width: px2Rem(358);
+    margin: 0 auto;
+
+    @include mq(md) {
+        gap: px2Rem(24);
+        max-width: px2Rem(600);
+    }
+
+    &__item {
+        display: grid;
+        gap: px2Rem(12);
+        background-color: $color-white;
+        color: $color-accordion;
+        padding: px2Rem(17) px2Rem(15) px2Rem(16);
+
+        @include mq(md) {
+            gap: px2Rem(12);
+            padding: px2Rem(22) px2Rem(24) px2Rem(17);
+        }
+    }
+
+    &__title {
+        cursor: pointer;
+        /* activeのときアイコンを回転 */
+        &--active .accordion__icon {
+            transform: rotate(180deg);
+            margin-top: px2Rem(4);
+        }
+    }
+
+    &__content {
+        display: none;
+        &--bottom {
+            display: block;
+            height: px2Rem(12);
+
+            @include mq(md) {
+                height: px2Rem(4);
+            }
+        }
+    }
+
+    &__container {
+        display: flex;
+        gap: px2Rem(12);
+        justify-content: space-between;
+        align-items: flex-start;
+
+        @include mq(md) {
+            gap: px2Rem(15);
+        }
+    }
+
+    &__question {
+        display: flex;
+        flex-direction: row;
+        gap: px2Rem(12);
+
+        @include mq(md) {
+            gap: px2Rem(15);
+        }
+    }
+
+    &__mark {
+        @include --garamond();
+        font-weight: normal;
+        font-size: px2Rem(16);
+        line-height: 1.4;
+        @include tracking(50);
+        padding-top: 3px;
+
+        @include mq(md) {
+            font-size: px2Rem(18);
+            @include font-lin(18, 32);
+            padding-top: 0;
+        }
+    }
+
+    &__text {
+        font-size: px2Rem(15);
+        @include font-lin(15, 28);
+        @include tracking(0);
+    }
+
+    &__icon {
+        font-size: px2Rem(14);
+        line-height: 1.75;
+        transition: transform 0.2s ease;
+        padding-top: px2Rem(3);
+
+        @include mq(md) {
+            font-size: px2Rem(15);
+            padding-top: 2px;
+        }
+    }
+}
+
+/*トップへ戻るボタン------------------*/
+.back-to-top {
+    position: sticky;
+    bottom: 0;
+    z-index: 999;
+    opacity: 0; /* フェードイン/アウト用 */
+    transform: translateY(px2Rem(40)); /* ボタンを最初に少し下に隠す */
+    transition: opacity 0.6s ease, transform 0.6s ease; /* フェードインと上からの移動 */
+
+    &__container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &__button {
+        display: flex;
+        height: px2Rem(40);
+        width: px2Rem(40);
+        align-items: center;
+        justify-content: center;
+        background-color: $color-footer;
+        border: none;
+        & i {
+            font-size: px2Rem(30);
+            line-height: 1;
+            color: $color-white;
+        }
+    }
+
+    /* ボタンが表示されているときのスタイル */
+    &.show {
+        opacity: 1; /* フェードイン効果 */
+        transform: translateY(0); /* 元の位置に移動 */
+        display: block; /* 表示する */
+    }
+
+    &.fade-in-down {
+        opacity: 1;
+        transform: translateY(0); /* 元の位置に移動 */
+    }
+
+    &.fade-in-up {
+        opacity: 0;
+        transform: translateY(px2Rem(40)); /* 下に隠す */
+    }
+}
+
+/* フェードイン前の初期状態 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px); /* 下に隠しておく */
+}
+
+/*フッター------------------*/
+.footer {
+    background-color: $color-footer;
+    height: px2Rem(165);
+    color: $color-white;
+    margin: auto;
+    padding: px2Rem(24) 0;
+
+    @include mq(md) {
+        height: px2Rem(104);
+    }
+
+    & .w-container {
+        display: grid;
+        grid-auto-flow: row;
+        align-items: center;
+        gap: px2Rem(15);
+
+        @include mq(md) {
+            grid-auto-flow: column;
+            justify-content: space-between;
+            gap: px2Rem(40);
+            padding: 0 px2Rem(32);
+        }
+    }
+
+    &__logo {
+        @include --marcellus();
+        font-size: px2Rem(28);
+        @include font-lin(28, 35);
+        @include tracking(200);
+        text-align: center;
+        padding-left: px2Rem(6);
+
+        @include mq(md) {
+            font-size: px2Rem(32);
+            @include font-lin(32, 40);
+            text-align: left;
+            padding-left: 0;
+        }
+    }
+
+    & .footer-nav {
+        &__list {
+            display: grid;
+            grid-auto-flow: column;
+            gap: px2Rem(30);
+            justify-content: center;
+
+            @include mq(md) {
+                gap: px2Rem(32);
+                padding-left: px2Rem(44);
+            }
+
+            a {
+                font-size: px2Rem(12);
+                @include font-lin(12, 17);
+                @include tracking(0);
+                color: $color-white;
+
+                @include mq(md) {
+                    font-size: px2Rem(14);
+                    @include font-lin(14, 20);
+                }
+            }
+        }
+    }
+
+    &__copy {
+        font-size: px2Rem(11);
+        @include font-lin(11, 16);
+        @include tracking(0);
+        text-align: center;
+
+        @include mq(md) {
+            font-size: px2Rem(12);
+            @include font-lin(12, 17);
+            text-align: left;
+        }
+    }
+}
