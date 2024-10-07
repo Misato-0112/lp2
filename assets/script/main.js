@@ -34,22 +34,18 @@ $(document).ready(function () {
         $(".accordion__title").not($(this)).removeClass("accordion__title--active");
     });
 
-    // Topへ戻るボタン
+    // トップへ戻るボタン
     var backToTopButton = $(".back-to-top");
     var showButtonHeight = 200;
-    var fadeDuration = 800;
+    var fadeDuration = 400;
 
     $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();
 
         if (scrollTop > showButtonHeight) {
-            backToTopButton.addClass("show fade-in-down").removeClass("fade-in-up");
+            backToTopButton.fadeIn(fadeDuration).addClass("show");
         } else {
-            backToTopButton.addClass("fade-in-up").removeClass("show fade-in-down");
+            backToTopButton.fadeOut(fadeDuration).removeClass("show");
         }
-    });
-
-    backToTopButton.click(function () {
-        $("html, body").animate({ scrollTop: 0 }, 300);
     });
 });
