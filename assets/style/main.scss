@@ -477,6 +477,7 @@ h2 {
         @include font-lin(30, 54);
         @include tracking(0);
         text-align: center;
+        margin-bottom: 0;
 
         @include mq(md) {
             text-align: left;
