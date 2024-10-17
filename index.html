@@ -12,7 +12,6 @@
     <meta property="og:description" content="Kirameki Creamはお肌のうるおいを美しく保ちます。">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://example.com">
-    <meta property="og:image" content="">
     <meta property="og:site_name" content="Kira-meki">
 
     <!-- cssリセット -->
@@ -36,31 +35,27 @@
     <!-- メイン -->
     <main>
         <!-- メインビジュアル -->
-        <section class="main-visual">
-            <div class="main-visual__background">
-                <div class="w-container">
-                    <img class="main-visual__logo" src="/assets/image/kirameki_logo.svg" alt="Kira-meki">
-                    <div class="main-visual-title-group">
-                        <h1 class="main-visual-title-group__title">
+        <section class="cover">
+            <div class="cover__background">
+                <div class="cover__container">
+                    <img class="cover__logo" src="/assets/image/kirameki_logo.svg" alt="Kira-meki">
+                    <div class="cover-title-group">
+                        <h1 class="cover-title-group__title">
                             <span>Kirameki</span>
                             <span>Cream</span>
+                            <span class="cover-title-group__subtitle">肌のうるおい、煌めく。</span>
                         </h1>
-                        <p class="main-visual-title-group__subtitle">肌のうるおい、煌めく。</p>
                     </div>
                 </div>
             </div>
         </section>
         <!-- ショッピング1 -->
         <div class="shopping shopping--one">
-            <div class="w-container">
-                <ul class="shopping-product">
-                    <li>
-                        <p class="shopping-product__name">キラメキクリーム</p>
-                    </li>
-                    <li>
-                        <p class="shopping-product__price">税込&nbsp;4,000円</p>
-                    </li>
-                </ul>
+            <div class="shopping__container">
+                <div class="shopping-product">
+                    <p class="shopping-product__name">キラメキクリーム</p>
+                    <p class="shopping-product__price">税込&nbsp;4,000円</p>
+                </div>
                 <div class="shopping-button">
                     <a href="#" class="shopping-button__link">オンラインショップへ</a>
                     <form action="/cart/" method="POST">
@@ -72,24 +67,24 @@
         <!-- コンセプト -->
         <section class="concept">
             <div class="concept__background">
-                <div class="w-container">
-                    <div class="concept-text-group">
-                        <h2 class="concept-text-group__title">Keep Your Skin Beautiful.</h2>
+                <div class="concept__container">
+                    <h2 class="concept-text-group">
+                        <p class="concept-text-group__title">Keep Your Skin Beautiful.</p>
                         <p class="concept-text-group__subtitle">お肌を美しく保つ</p>
                         <p class="concept-text-group__text">
                             ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
                         </p>
-                    </div>
+                    </h2>
                 </div>
             </div>
         </section>
         <!-- お客様の声-->
         <section class="voices">
-            <div class="section-title-group">
-                <h2 class="section-title-group__title">Voices</h2>
-                <p class="section-title-group__subtitle">お客様の声</p>
-            </div>
-            <div class="w-container">
+            <h2 class="section-title-group">
+                <span class="section-title-group__title">Voices</span>
+                <span class="section-title-group__subtitle">お客様の声</span>
+            </h2>
+            <div class="voices__container">
                 <!-- スライダー -->
                 <div class="voices-slider">
                     <div class="voices-slider__container">
@@ -168,11 +163,11 @@
         </section>
         <!-- よくあるご質問 -->
         <section class="question">
-            <div class="section-title-group">
-                <h2 class="section-title-group__title">Q&A</h2>
-                <p class="section-title-group__subtitle">よくあるご質問</p>
-            </div>
-            <div class="w-container">
+            <h2 class="section-title-group">
+                <span class="section-title-group__title">Q&A</span>
+                <span class="section-title-group__subtitle">よくあるご質問</span>
+            </h2>
+            <div class="question__container">
                 <!-- アコーディオン -->
                 <div class="accordion">
                     <!-- アコーディオンアイテム -->
@@ -280,7 +275,7 @@
         </section>
         <!-- ショッピング2 -->
         <div class="shopping shopping--two">
-            <div class="w-container">
+            <div class="shopping__container">
                 <ul class="shopping-product">
                     <li>
                         <p class="shopping-product__name">キラメキクリーム</p>
@@ -300,7 +295,7 @@
     </main>
     <!-- トップへ戻るボタン -->
     <div class="back-to-top" id="backToTop">
-        <div class="back-to-top__container w-container">
+        <div class="back-to-top__container">
             <a href="#" class="back-to-top__button">
                 <i class="bi bi-arrow-up-short"></i>
             </a>
@@ -308,18 +303,18 @@
     </div>
     <!-- フッター -->
     <footer class="footer">
-        <div class="w-container">
+        <div class="footer__container">
             <img class="footer__logo" src="/assets/image/footer_logo.svg" alt="Kira-meki">
-            <nav class="footer-nav">
-                <ul class="footer-nav__list">
-                    <li class="footer-nav__item">
-                        <a href="/company/" class="footer-nav__link">会社概要</a>
+            <nav class="footer__nav">
+                <ul class="footer__nav-list">
+                    <li class="footer__nav-item">
+                        <a href="/company/" class="footer__nav-link">会社概要</a>
                     </li>
-                    <li class="footer-nav__item">
-                        <a href="/privacy-policy/" class="footer-nav__link">個人情報保護ポリシー</a>
+                    <li class="footer__nav-item">
+                        <a href="/privacy-policy/" class="footer__nav-link">個人情報保護ポリシー</a>
                     </li>
-                    <li class="footer-nav__item">
-                        <a href="/contact/" class="footer-nav__link">お問い合わせ</a>
+                    <li class="footer__nav-item">
+                        <a href="/contact/" class="footer__nav-link">お問い合わせ</a>
                     </li>
                 </ul>
             </nav>
@@ -328,7 +323,7 @@
     </footer>
 
     <!-- jQueryの読み込み -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Slick JS -->
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <!-- JSファイル読み込み -->

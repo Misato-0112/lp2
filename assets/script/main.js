@@ -29,9 +29,6 @@ $(document).ready(function () {
         $(this).toggleClass("accordion__title--active");
 
         $(this).next(".accordion__content").slideToggle(300);
-
-        $(".accordion__content").not($(this).next()).slideUp(300);
-        $(".accordion__title").not($(this)).removeClass("accordion__title--active");
     });
 
     // トップへ戻るボタン

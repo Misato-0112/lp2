@@ -148,14 +148,12 @@ button:hover {
 }
 
 // コンテナー横幅と左右の余白
-.w-container {
+@mixin --w-container {
     max-width: px2Rem(358);
     height: 100%;
-    margin: auto;
-}
+    margin-inline: auto;
 
-@include mq(md) {
-    .w-container {
+    @include mq(md) {
         max-width: px2Rem(1200);
     }
 }
@@ -202,27 +200,27 @@ h1 {
     }
 }
 
-h2 {
-    @include --garamond;
-    font-size: px2Rem(30);
-    font-weight: bold;
-    @include font-lin(30, 32);
-    @include tracking(50);
-    text-align: center;
-    margin-bottom: px2Rem(4);
-
-    @include mq(md) {
-        font-size: px2Rem(45);
-        @include font-lin(45, 32);
-        margin-bottom: px2Rem(20);
-    }
-}
-
 .section-title-group {
     text-align: center;
     margin-left: px2Rem(2);
+    &__title {
+        display: block;
+        @include --garamond;
+        font-size: px2Rem(30);
+        font-weight: bold;
+        @include font-lin(30, 32);
+        @include tracking(50);
+        text-align: center;
+        margin-bottom: px2Rem(4);
 
+        @include mq(md) {
+            font-size: px2Rem(45);
+            @include font-lin(45, 32);
+            margin-bottom: px2Rem(20);
+        }
+    }
     &__subtitle {
+        display: block;
         font-size: px2Rem(16);
         font-weight: 600;
         @include font-lin(16, 32);
@@ -237,21 +235,22 @@ h2 {
 
 /* メイン------------------------------------ */
 /*メインビジュアル------------------*/
-.main-visual {
+.cover {
     padding-bottom: px2Rem(109);
 
     @include mq(md) {
         padding-bottom: 0;
     }
 
-    .w-container {
+    &__container {
+        @include --w-container;
         position: relative;
         display: grid;
         justify-content: center;
     }
 
     &__background {
-        width: 100vw;
+        width: 100%;
         height: px2Rem(450);
         background-image: url("/assets/image/main_visual_sp.jpg");
         background-size: cover;
@@ -277,7 +276,7 @@ h2 {
     }
 }
 
-.main-visual-title-group {
+.cover-title-group {
     width: 100%;
     position: absolute;
     display: flex;
@@ -292,13 +291,7 @@ h2 {
         width: px2Rem(430);
         height: px2Rem(177);
         padding-left: px2Rem(66);
-        top: 0;
-        bottom: 0;
-        margin: auto;
-    }
-
-    p {
-        display: inline-block;
+        top: calc(50% - px2Rem(90));
     }
 
     &__title {
@@ -310,18 +303,20 @@ h2 {
         @include mq(md) {
             font-size: px2Rem(50);
             @include font-lin(50, 68);
-            margin-top: px2Rem(-2);
         }
     }
 
     &__subtitle {
+        display: block;
         font-size: px2Rem(20);
         @include font-lin(20, 29);
         @include tracking(300);
+        margin-top: px2Rem(9);
 
         @include mq(md) {
             font-size: px2Rem(25);
             @include font-lin(25, 36);
+            margin-top: px2Rem(10);
         }
     }
 }
@@ -335,6 +330,22 @@ h2 {
         padding: px2Rem(48) 0;
     }
 
+    &__container {
+        background-color: #f0f4ff;
+        display: grid;
+        gap: px2Rem(20);
+        padding-top: px2Rem(20);
+        padding-bottom: px2Rem(34);
+        margin-inline: auto;
+
+        @include mq(md) {
+            max-width: px2Rem(1000);
+            grid-auto-flow: column;
+            justify-content: space-between;
+            padding: px2Rem(40) px2Rem(48);
+        }
+    }
+
     /*ショッピング2のpadding下変更*/
     &--two {
         padding-top: 50px;
@@ -344,21 +355,6 @@ h2 {
             padding-top: 48px;
             padding-bottom: px2Rem(8);
         }
-    }
-}
-
-.shopping .w-container {
-    background-color: #f0f4ff;
-    display: grid;
-    gap: px2Rem(20);
-    padding-top: px2Rem(20);
-    padding-bottom: px2Rem(34);
-
-    @include mq(md) {
-        max-width: px2Rem(1000);
-        grid-auto-flow: column;
-        justify-content: space-between;
-        padding: px2Rem(40) px2Rem(48);
     }
 }
 
@@ -433,7 +429,7 @@ h2 {
 /*コンセプト------------------*/
 .concept {
     &__background {
-        width: 100vw;
+        width: 100%;
         height: px2Rem(680);
         background-image: url("/assets/image/concept_sp.jpg");
         background-size: cover;
@@ -441,13 +437,13 @@ h2 {
         margin: 0 auto;
 
         @include mq(md) {
-            width: 100vw;
             background-image: url("/assets/image/concept_pc.jpg");
             height: px2Rem(550);
         }
     }
 
-    & .w-container {
+    &__container {
+        @include --w-container;
         padding-top: px2Rem(41);
 
         @include mq(md) {
@@ -468,6 +464,8 @@ h2 {
         width: px2Rem(429);
         text-align: left;
         margin-right: px2Rem(93);
+        margin-top: 4px;
+        margin-bottom: 0;
     }
 
     &__title {
@@ -477,13 +475,12 @@ h2 {
         @include font-lin(30, 54);
         @include tracking(0);
         text-align: center;
-        margin-bottom: 0;
 
         @include mq(md) {
             text-align: left;
             font-size: px2Rem(38);
             @include font-lin(38, 54);
-            margin-bottom: 5px;
+            margin-bottom: px2Rem(6);
         }
     }
 
@@ -491,6 +488,7 @@ h2 {
         font-size: px2Rem(24);
         font-weight: 600;
         line-height: 1.5;
+        @include tracking(0);
         margin-bottom: px2Rem(13);
 
         @include mq(md) {
@@ -501,6 +499,7 @@ h2 {
     &__text {
         font-size: px2Rem(14);
         @include font-lin(14, 32);
+        @include tracking(0);
         text-align: left;
     }
 }
@@ -513,7 +512,8 @@ h2 {
         padding-bottom: px2Rem(80);
     }
 
-    & .w-container {
+    &__container {
+        @include --w-container;
         padding-top: px2Rem(30);
 
         @include mq(md) {
@@ -669,15 +669,16 @@ h2 {
 
 /*よくあるご質問------------------*/
 .question {
-    background: linear-gradient(#f4ffe8 0%, #c6f0fe 100%);
+    background: linear-gradient(90deg, #f4ffe8 0%, #c6f0fe 100%);
     padding-top: px2Rem(36);
     padding-bottom: px2Rem(32);
 
     @include mq(md) {
         padding-top: px2Rem(52);
-        padding-bottom: px2Rem(41);
+        padding-bottom: px2Rem(40);
     }
-    & .w-container {
+    &__container {
+        @include --w-container;
         padding-top: px2Rem(31);
 
         @include mq(md) {
@@ -689,12 +690,12 @@ h2 {
 /*アコーディオン*/
 .accordion {
     display: grid;
-    gap: px2Rem(22);
+    gap: px2Rem(20);
     max-width: px2Rem(358);
     margin: 0 auto;
 
     @include mq(md) {
-        gap: px2Rem(26);
+        gap: px2Rem(24.5);
         max-width: px2Rem(600);
     }
 
@@ -706,19 +707,25 @@ h2 {
 
     &__title {
         cursor: pointer;
-        padding: px2Rem(16) px2Rem(15) px2Rem(23);
+        padding: px2Rem(16) px2Rem(15) px2Rem(17);
 
         @include mq(md) {
-            padding: px2Rem(24) px2Rem(24) px2Rem(24);
+            padding: px2Rem(24) px2Rem(23) px2Rem(19);
         }
 
         // activeのときアイコンを回転
-        &--active .accordion__icon {
-            transform: rotate(180deg);
-            margin-top: px2Rem(11);
+        &--active {
+            padding-bottom: px2Rem(13);
 
             @include mq(md) {
-                margin-top: px2Rem(5);
+                padding-bottom: px2Rem(16);
+            }
+            & .accordion__icon {
+                rotate: 180deg;
+                transform: translateY(px2Rem(-7.5));
+                @include mq(md) {
+                    transform: translateY(px2Rem(-8));
+                }
             }
         }
     }
@@ -727,12 +734,12 @@ h2 {
         display: none;
         padding-right: px2Rem(15);
         padding-left: px2Rem(15);
-        padding-bottom: px2Rem(35);
+        padding-bottom: px2Rem(29);
 
         @include mq(md) {
             padding-right: px2Rem(24);
             padding-left: px2Rem(24);
-            padding-bottom: px2Rem(25);
+            padding-bottom: px2Rem(18);
         }
     }
 
@@ -741,11 +748,9 @@ h2 {
         gap: px2Rem(12);
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: px2Rem(-8);
 
         @include mq(md) {
             gap: px2Rem(15);
-            margin-bottom: px2Rem(-7);
         }
     }
 
@@ -765,12 +770,12 @@ h2 {
         font-size: px2Rem(16);
         line-height: 1;
         @include tracking(50);
-        padding-top: px2Rem(5);
+        padding-top: px2Rem(7);
 
         @include mq(md) {
             font-size: px2Rem(18);
             line-height: 1;
-            padding-top: px2Rem(3);
+            padding-top: px2Rem(4);
         }
     }
 
@@ -781,20 +786,20 @@ h2 {
     }
 
     &__icon {
-        font-size: px2Rem(14);
+        font-size: px2Rem(15);
         line-height: 1;
-        transition: transform 0.2s ease;
-        padding-top: px2Rem(8);
+        padding-top: px2Rem(9);
 
         @include mq(md) {
             font-size: px2Rem(16);
-            padding-top: px2Rem(4);
+            padding-top: px2Rem(6);
         }
     }
 }
 
 /* トップへ戻るボタン------------------ */
 .back-to-top {
+    @include --w-container;
     position: sticky;
     bottom: px2Rem(20);
     z-index: 999;
@@ -846,7 +851,8 @@ h2 {
         height: px2Rem(104);
     }
 
-    & .w-container {
+    &__container {
+        @include --w-container;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -870,12 +876,13 @@ h2 {
         @include mq(md) {
             width: px2Rem(187);
             max-width: none;
+            padding-left: px2Rem(2);
             margin: 0;
         }
     }
 
-    & .footer-nav {
-        &__list {
+    &__nav {
+        &-list {
             display: grid;
             grid-auto-flow: column;
             gap: px2Rem(30);
@@ -885,19 +892,18 @@ h2 {
             @include mq(md) {
                 gap: px2Rem(32);
                 margin-bottom: 0;
-                padding-left: px2Rem(50);
+                padding-left: px2Rem(54);
             }
+        }
+        &-link {
+            font-size: px2Rem(12);
+            @include font-lin(12, 17);
+            @include tracking(0);
+            color: $color-white;
 
-            a {
-                font-size: px2Rem(12);
-                @include font-lin(12, 17);
-                @include tracking(0);
-                color: $color-white;
-
-                @include mq(md) {
-                    font-size: px2Rem(14);
-                    @include font-lin(14, 20);
-                }
+            @include mq(md) {
+                font-size: px2Rem(14);
+                @include font-lin(14, 20);
             }
         }
     }
