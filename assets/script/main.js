@@ -1,12 +1,13 @@
 $(document).ready(function () {
     // Slickスライダー
     $(".voices-slider__container").slick({
+        roop: true,
         dots: true,
         infinite: true,
         speed: 500,
         variableWidth: true,
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
 
         prevArrow: $(".voices-slider__button--prev"),
         nextArrow: $(".voices-slider__button--next"),
