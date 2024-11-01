@@ -469,6 +469,7 @@ h1 {
     }
 
     &__title {
+        display: block;
         @include --garamond;
         font-size: px2Rem(30);
         font-weight: bold;
@@ -485,6 +486,7 @@ h1 {
     }
 
     &__subtitle {
+        display: block;
         font-size: px2Rem(24);
         font-weight: 600;
         line-height: 1.5;
@@ -497,6 +499,7 @@ h1 {
     }
 
     &__text {
+        display: block;
         font-size: px2Rem(14);
         @include font-lin(14, 32);
         @include tracking(0);
@@ -509,7 +512,7 @@ h1 {
     padding-bottom: 49px;
 
     @include mq(md) {
-        padding-bottom: px2Rem(80);
+        padding-bottom: px2Rem(79);
     }
 
     &__container {
@@ -682,7 +685,7 @@ h1 {
         padding-top: px2Rem(31);
 
         @include mq(md) {
-            padding-top: px2Rem(38);
+            padding-top: px2Rem(39);
         }
     }
 }
@@ -705,6 +708,21 @@ h1 {
         color: $color-accordion;
     }
 
+    &__icon {
+        display: block;
+        font-size: px2Rem(15);
+        line-height: 1;
+        margin-top: px2Rem(10);
+        transition: 0.5s;
+        &::before {
+            display: block;
+        }
+        @include mq(md) {
+            font-size: px2Rem(16);
+            margin-top: px2Rem(5);
+        }
+    }
+
     &__title {
         cursor: pointer;
         padding: px2Rem(16) px2Rem(15) px2Rem(17);
@@ -721,11 +739,8 @@ h1 {
                 padding-bottom: px2Rem(16);
             }
             & .accordion__icon {
-                rotate: 180deg;
-                transform: translateY(px2Rem(-7.5));
-                @include mq(md) {
-                    transform: translateY(px2Rem(-8));
-                }
+                transform: rotate(180deg);
+                transition: 0.5s;
             }
         }
     }
@@ -783,17 +798,6 @@ h1 {
         font-size: px2Rem(15);
         @include tracking(0);
         @include font-lin(15, 28);
-    }
-
-    &__icon {
-        font-size: px2Rem(15);
-        line-height: 1;
-        padding-top: px2Rem(9);
-
-        @include mq(md) {
-            font-size: px2Rem(16);
-            padding-top: px2Rem(6);
-        }
     }
 }
 
